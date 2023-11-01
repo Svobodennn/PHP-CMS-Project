@@ -2,7 +2,8 @@
     "name": "melih/php-cms-project",
     "autoload": {
         "psr-4": {
-            "Melih\\PhpCmsProject\\": "src/"
+            "App\\": "./App",
+            "Core\\": "./Core"
         }
     },
     "authors": [
@@ -11,5 +12,7 @@
             "email": "melih.sarac@hotmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "bramus/router": "~1.6"
+    }
 }
