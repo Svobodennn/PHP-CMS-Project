@@ -1,28 +1,34 @@
 <?php
-$cms->router->get('/', 'Home@Index');
+
+$cms->router->before('GET|POST', '/', 'Middlewares\MiddlewareAuth@isLogin');
+$cms->router->before('GET|POST', '/login', 'Middlewares\MiddlewareAuth@isLogin');
+$cms->router->before('GET|POST', '/customer.*', 'Middlewares\MiddlewareAuth@isLogin');
+$cms->router->before('GET|POST', '/project.*', 'Middlewares\MiddlewareAuth@isLogin');
+
+$cms->router->get('/', 'Controllers\Home@Index');
 
 // Login Page
-$cms->router->get('/login', 'Auth@Index');
+$cms->router->get('/login', 'Controllers\Auth@Index');
 // Auth
-$cms->router->post('/login', 'Auth@Login');
-$cms->router->get('/logout', 'Auth@Logout');
+$cms->router->post('/login', 'Controllers\Auth@Login');
+$cms->router->get('/logout', 'Controllers\Auth@Logout');
 
 
 // Customers
 $cms->router->mount('/customer', function () use ($cms) {
-    $cms->router->get('/', 'Customer@Index');
+    $cms->router->get('/', 'Controllers\Customer@Index');
     //id
-    $cms->router->get('/add', 'Customer@Add');
-    $cms->router->get('/edit/([0-9]+)', 'Customer@Edit');
-    $cms->router->get('/([0-9]+)', 'Customer@Detail');
-    $cms->router->post('/remove/([0-9]+)', 'Customer@Remove');
+    $cms->router->get('/add', 'Controllers\Customer@Add');
+    $cms->router->get('/edit/([0-9]+)', 'Controllers\Customer@Edit');
+    $cms->router->get('/([0-9]+)', 'Controllers\Customer@Detail');
+    $cms->router->post('/remove/([0-9]+)', 'Controllers\Customer@Remove');
 });
 // Projects
 $cms->router->mount('/project', function () use ($cms) {
-    $cms->router->get('/', 'Project@Index');
+    $cms->router->get('/', 'Controllers\Project@Index');
     //id
-    $cms->router->get('/add', 'Project@Add');
-    $cms->router->get('/edit/([0-9]+)', 'Project@Edit');
-    $cms->router->get('/([0-9]+)', 'Project@Detail');
-    $cms->router->post('/remove/([0-9]+)', 'Project@Remove');
+    $cms->router->get('/add', 'Controllers\Project@Add');
+    $cms->router->get('/edit/([0-9]+)', 'Controllers\Project@Edit');
+    $cms->router->get('/([0-9]+)', 'Controllers\Project@Detail');
+    $cms->router->post('/remove/([0-9]+)', 'Controllers\Project@Remove');
 });
