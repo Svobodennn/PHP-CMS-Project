@@ -10,4 +10,8 @@ class Session
     public static function setSession($name,$value){
         $_SESSION[$name] = $value;
     }
+    public static function removeSession(){
+        session_start();
+        session_destroy();
+    }
 }
