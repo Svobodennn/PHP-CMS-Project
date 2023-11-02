@@ -14,58 +14,78 @@
                 <i class="fa fa-user"></i>
             </div>
             <div class="info">
-                <a href="#" class="d-block">name surname</a>
+                <a href="#" class="d-block"><?= _session('name').' '._session('surname') ?></a>
             </div>
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+<!--        <div class="form-inline">-->
+<!--            <div class="input-group" data-widget="sidebar-search">-->
+<!--                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">-->
+<!--                <div class="input-group-append">-->
+<!--                    <button class="btn btn-sidebar">-->
+<!--                        <i class="fas fa-search fa-fw"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
+                <li class="nav-item">
+                    <a href="<?= _link() ?>" class="nav-link">
+                        <i class="nav-icon fas fa-chart-line"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-users"></i>
                         <p>
-                            Starter Pages
+                            Customers
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="#" class="nav-link active">
+                            <a href="<?= _link('customer/add') ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Active Page</p>
+                                <p>Add Customer</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="<?= _link('customer') ?>" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Inactive Page</p>
+                                <p>All Customers</p>
                             </a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Simple Link
-                            <span class="right badge badge-danger">New</span>
+                            Projects
+                            <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="<?= _link('project/add') ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Project</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="<?= _link('project') ?>" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>All Projects</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </nav>
