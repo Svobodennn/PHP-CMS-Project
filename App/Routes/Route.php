@@ -1,5 +1,5 @@
 <?php
-$cms->router->setNamespace('App\Controllers');
+$cms->router->setNamespace('App');
 
 require BASEDIR.'/App/Routes/api.php';
 require BASEDIR.'/App/Routes/web.php';
