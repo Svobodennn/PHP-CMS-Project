@@ -2,7 +2,7 @@
 
 namespace Core;
 
-class BaseModel
+class BaseModel extends Starter
 {
 
 }
