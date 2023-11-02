@@ -2,18 +2,36 @@
 
 namespace App\Controllers;
 
+use App\Model\ModelAuth;
 use Core\BaseController;
 use Core\Session;
 
 class Auth extends BaseController
 {
     public function Index(){
-        echo $this->view->load('auth/index');
+
+        $data['form_link'] = _link('login');
+        echo $this->view->load('auth/index',$data);
     }
     public function Login(){
-        $post = $this->request->post();
+        $data = $this->request->post();
 
-        print_r($post);
+        $model = new ModelAuth();
+        $result = $model->userLogin($data);
+
+        if ($result){
+            $status = 'success';
+            $title = 'Yay!';
+            $msg = 'Signed in';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg, 'redirect' => _link()]);
+            exit();
+        } else {
+            $status = 'error';
+            $title = 'Oops!';
+            $msg = 'Incorrect Mail or Password, Please Try Again.';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
+            exit();
+        }
     }
     public function Logout(){
         Session::removeSession();
