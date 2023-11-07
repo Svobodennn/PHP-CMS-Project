@@ -16,8 +16,24 @@ class Auth extends BaseController
     public function Login(){
         $data = $this->request->post();
 
+        if (!$data['mail']){
+            $status = 'error';
+            $title = 'Oops!';
+            $msg = 'Please enter a valid mail';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
+            exit();
+        }
+        if (!$data['password']){
+            $status = 'error';
+            $title = 'Oops!';
+            $msg = 'Please enter a valid password';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
+            exit();
+        }
+
         $model = new ModelAuth();
         $result = $model->userLogin($data);
+
 
         if ($result){
             $status = 'success';
