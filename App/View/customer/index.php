@@ -10,7 +10,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>AdminLTE 3 | Starter</title>
 
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="<?= asset('plugins/fontawesome-free/css/all.min.css') ?>">
     <!-- Theme style -->
@@ -19,8 +20,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
 
-    <?=$data['navbar']?>
-    <?=$data['sidebar']?>
+    <?= $data['navbar'] ?>
+    <?= $data['sidebar'] ?>
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -32,19 +33,52 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Starter Page</li>
+                            <li class="breadcrumb-item"><a href="<?= _link('/') ?>">Dashboard</a></li>
+                            <li class="breadcrumb-item active"><a href="<?= _link('customer') ?>">Customers</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-
         <!-- Main content -->
+
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Customers</th>
+                            <th>Projects</th>
+                            <th style="width: 40px">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $count=1; foreach ($data['customers'] as $key => $value): ?>
+                            <tr id="row_<?= $value['id'] ?>">
+                                <td><?= $count++ ?></td>
+                                <td><?= $value['name'] . ' ' . $value['surname'] ?></td>
+                                <td>
+                                    <?php foreach ($data['projects'] as $project): ?>
+                                        <div class="progress progress-xs">
+                                            <?= $project['name'] ?> <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-sm btn-danger" onclick="removeCustomer(<?= $value['id'] ?>)">Delete</button>
+                                        <a href="<?= _link('customer/edit/').$value['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+
+
+                        </tbody>
+                    </table>
                 </div>
                 <!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -53,15 +87,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     </div>
     <!-- /.content-wrapper -->
 
-    <!-- Control Sidebar -->
-    <aside class="control-sidebar control-sidebar-dark">
-        <!-- Control sidebar content goes here -->
-        <div class="p-3">
-            <h5>Title</h5>
-            <p>Sidebar content</p>
-        </div>
-    </aside>
-    <!-- /.control-sidebar -->
 
     <!-- Main Footer -->
     <footer class="main-footer">
@@ -83,5 +108,39 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="<?= asset('plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- AdminLTE App -->
 <script src="<?= asset('js/adminlte.min.js') ?>"></script>
+
+<!--axios-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"
+        integrity="sha512-WrdC3CE9vf1nBf58JHepuWT4x24uTacky9fuzw2g/3L9JkihgwZ6Cfv+JGTtNyosOhEmttMtEZ6H3qJWfI7gIQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<!--sweetalert-->
+<script src="<?= asset('plugins/sweetalert2/sweetalert2.all.js') ?>"></script>
+
+<script>
+
+
+
+    function removeCustomer(id){
+        let customerId = id;
+
+        let formData = new FormData();
+        formData.append('customerId', customerId);
+
+        axios.post('<?= _link('customer/remove') ?>', formData)
+            .then(res => {
+                if (res.data.removed){
+                    document.getElementById('row_'+res.data.removed).remove()
+                }
+                Swal.fire(
+                    res.data.title,
+                    res.data.msg,
+                    res.data.status
+                )
+            }).catch(err => {
+            console.log(err)
+        })
+    }
+</script>
+
 </body>
 </html>
