@@ -76,6 +76,11 @@ class ModelProject extends BaseModel
         $data = $this->db->query('select * from projects', true);
         return $data;
     }
+    public function getProjectsByCustomerId($id)
+    {
+        $data = $this->db->query("select * from projects where projects.customer_id = '$id'", true);
+        return $data;
+    }
     public function getProject($id)
     {
         $data = $this->db->query("select * from projects where projects.id='$id'", false);
