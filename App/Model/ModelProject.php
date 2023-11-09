@@ -73,7 +73,8 @@ class ModelProject extends BaseModel
 
     public function getProjects()
     {
-        $data = $this->db->query('select * from projects', true);
+        $data = $this->db->query('select projects.*,c.name,c.surname from projects
+        left join cms.customers c on c.id = projects.customer_id', true);
         return $data;
     }
     public function getProjectsByCustomerId($id)
