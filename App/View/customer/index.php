@@ -46,12 +46,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <table class="table table-bordered">
+                    <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Customers</th>
-                            <th>Projects</th>
+                            <th>Company</th>
                             <th style="width: 40px">Action</th>
                         </tr>
                         </thead>
@@ -60,17 +60,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <tr id="row_<?= $value['id'] ?>">
                                 <td><?= $count++ ?></td>
                                 <td><?= $value['name'] . ' ' . $value['surname'] ?></td>
-                                <td>
-                                    <?php foreach ($data['projects'] as $project): ?>
-                                        <div class="progress progress-xs">
-                                            <?= $project['name'] ?> <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </td>
+                                <td><?= $value['company']?></td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)">Delete</button>
-                                        <a href="<?= _link('customer/edit/').$value['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)"><i class="fa fa-trash" ></i></button>
+                                        <a href="<?= _link('customer/edit/').$value['id'] ?>" class="btn btn-sm btn-warning"><i class="fa fa-pen"></i></a>
+                                        <a href="<?= _link('customer/detail/').$value['id'] ?>" class="btn btn-sm btn-info"><i class="fa fa-eye"></i></a>
                                     </div>
                                 </td>
                             </tr>
