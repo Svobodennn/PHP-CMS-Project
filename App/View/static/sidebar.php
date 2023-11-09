@@ -14,7 +14,7 @@
                 <i class="fa fa-user"></i>
             </div>
             <div class="info">
-                <a href="#" class="d-block"><?= _session('name').' '._session('surname') ?></a>
+                <a href="<?= _link('user') ?>" class="d-block"><?= _session('name').' '._session('surname') ?></a>
             </div>
         </div>
 
