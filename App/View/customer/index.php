@@ -69,7 +69,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-sm btn-danger" onclick="removeCustomer(<?= $value['id'] ?>)">Delete</button>
+                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)">Delete</button>
                                         <a href="<?= _link('customer/edit/').$value['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
                                     </div>
                                 </td>
@@ -118,7 +118,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <script>
 
-
+    function confirm(id){
+        Swal.fire({
+            title: "Do you want to remove?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Yes",
+            denyButtonText: `Don't remove`
+        }).then((result) => {
+            if (result.isConfirmed) {
+                removeCustomer(id)
+            } else if (result.isDenied) {
+                Swal.fire("Did not remove", "", "info");
+            }
+        });
+    }
 
     function removeCustomer(id){
         let customerId = id;
