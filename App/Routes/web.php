@@ -21,6 +21,7 @@ $cms->router->mount('/customer', function () use ($cms) {
     $cms->router->get('/add', 'Controllers\Customer@Add');
     $cms->router->post('/add', 'Controllers\Customer@AddCustomer');
     $cms->router->get('/edit/([0-9]+)', 'Controllers\Customer@Edit');
+    $cms->router->get('/detail/([0-9]+)', 'Controllers\Customer@Detail');
     $cms->router->post('/edit', 'Controllers\Customer@EditCustomer');
     $cms->router->get('/([0-9]+)', 'Controllers\Customer@Detail');
     $cms->router->post('/remove', 'Controllers\Customer@RemoveCustomer');
