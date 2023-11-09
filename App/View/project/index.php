@@ -45,7 +45,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <table class="table table-bordered">
+                    <table class="table table-striped table-bordered">
                         <thead>
                         <tr>
                             <th style="width: 10px">#</th>
@@ -67,12 +67,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                         </div>
                                 </td>
                                 <td>
-                                    <?= $value['status'] == 'a' ? 'Active' : 'Passive' ?>
+                                    <?= $value['status'] == 'a' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Passive</span>' ?>
                                 </td>
                                 <td>
                                     <div class="btn-group btn-group-sm">
-                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)">Delete</button>
-                                        <a href="<?= _link('project/edit/').$value['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)"><i class="fa fa-trash" ></i></button>
+                                        <a href="<?= _link('project/edit/').$value['id'] ?>" class="btn btn-sm btn-warning"><i class="fa fa-pen"></i></a>
                                     </div>
                                 </td>
                             </tr>
