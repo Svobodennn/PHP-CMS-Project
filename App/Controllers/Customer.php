@@ -98,7 +98,7 @@ class Customer extends BaseController
     {
 
         $modelProject = new ModelProject();
-        $data['projects'] = $modelProject->getProjects();
+        $data['projects'] = $modelProject->getProjectsByCustomerId($id);
 
         $model = new ModelCustomer();
         $data['customer'] = $model->getCustomer($id);
@@ -135,6 +135,37 @@ class Customer extends BaseController
             $title = 'Yay!';
             $msg = 'Customer Edited';
             echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg, 'redirect' => _link('customer')]);
+            exit();
+        } else {
+            $status = 'error';
+            $title = 'Oops!';
+            $msg = 'Something went wrong';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
+            exit();
+        }
+    }
+    public function TakeNote($id)
+    {
+        $data = $this->request->post();
+        $data['id']= $id;
+
+        if (!$data['note']){
+            $status = 'error';
+            $title = 'Oops!';
+            $msg = "Please enter your note first.";
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
+            exit();
+        }
+
+
+        $model = new ModelCustomer();
+        $result = $model->editNote($data);
+
+        if ($result){
+            $status = 'success';
+            $title = 'Yay!';
+            $msg = 'Note Saved';
+            echo json_encode(['status' => $status, 'title' => $title, 'msg' => $msg]);
             exit();
         } else {
             $status = 'error';
