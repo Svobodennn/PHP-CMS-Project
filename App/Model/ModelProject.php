@@ -77,6 +77,12 @@ class ModelProject extends BaseModel
         left join cms.customers c on c.id = projects.customer_id', true);
         return $data;
     }
+    public function getProjectsByStatus($status = 'a')
+    {
+        $data = $this->db->query("select projects.*,c.name,c.surname from projects
+        left join cms.customers c on c.id = projects.customer_id where projects.status= '$status' ", true);
+        return $data;
+    }
     public function getProjectsByCustomerId($id)
     {
         $data = $this->db->query("select * from projects where projects.customer_id = '$id'", true);
