@@ -16,6 +16,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="<?= asset('plugins/fontawesome-free/css/all.min.css') ?>">
     <!-- Theme style -->
     <link rel="stylesheet" href="<?= asset('css/adminlte.min.css') ?>">
+    <link rel="stylesheet" href="<?= asset('plugins\summernote\summernote-bs5.min.css') ?>">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -59,13 +60,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Mail:  <span class="float-start "><?= $data['customer']['mail'] ?></span>
+                                    <a target="_blank" href="mailto:<?= $data['customer']['mail'] ?>" class="nav-link">
+                                        <?= $data['customer']['mail'] ?>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        Phone:  <span class="float-start "><?= $data['customer']['phone'] ?></span>
+
+                                    <a href="tel:<?= $data['customer']['phone']?>" class="nav-link">
+                                          <?= $data['customer']['phone']?>
                                     </a>
                                 </li>
                             </ul>
@@ -85,50 +87,54 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <!-- /.content -->
             </div>
             <div class="col-md-8">
-                <table class="table table-striped table-bordered">
-                    <thead>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Title</th>
-                        <th>Progress</th>
-                        <th>Status</th>
-                        <th style="width: 40px">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $count = 1;
-                    foreach ($data['projects'] as $key => $value): ?>
-                        <tr id="row_<?= $value['id'] ?>">
-                            <td><?= $count++ ?></td>
-                            <td><?= $value['title'] ?></td>
-                            <td>
-                                <?= $value['progress'] ?>%
-                                <div class="progress progress-xs">
-                                    <div class="progress-bar progress-bar-danger"
-                                         style="width: <?= $value['progress'] ?>%"></div>
-                                </div>
-                            </td>
-                            <td>
-                                <?= $value['status'] == 'a' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Passive</span>' ?>
-                            </td>
-                            <td>
-                                <div class="btn-group btn-group-sm">
-                                    <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)"><i
-                                                class="fa fa-trash"></i></button>
-                                    <a href="<?= _link('project/edit/') . $value['id'] ?>"
-                                       class="btn btn-sm btn-warning"><i class="fa fa-pen"></i></a>
-                                </div>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-
-
-                    </tbody>
-                </table>
+                <div id="summernote"><?= htmlspecialchars_decode($data['customer']['notes']) ?></div>
+                <button style="width: 100%" class="btn btn-sm btn-success mb-2" onclick="saveNote()">Save Note</button>
             </div>
-
         </div>
+        <div class="row">
+            <div class="col-md-12">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Title</th>
+                            <th>Progress</th>
+                            <th>Status</th>
+                            <th style="width: 40px">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php $count = 1;
+                        foreach ($data['projects'] as $key => $value): ?>
+                            <tr id="row_<?= $value['id'] ?>">
+                                <td><?= $count++ ?></td>
+                                <td><?= $value['title'] ?></td>
+                                <td>
+                                    <?= $value['progress'] ?>%
+                                    <div class="progress progress-xs">
+                                        <div class="progress-bar progress-bar-danger"
+                                             style="width: <?= $value['progress'] ?>%"></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <?= $value['status'] == 'a' ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Passive</span>' ?>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-sm btn-danger" onclick="confirm(<?= $value['id'] ?>)"><i
+                                                    class="fa fa-trash"></i></button>
+                                        <a href="<?= _link('project/edit/') . $value['id'] ?>"
+                                           class="btn btn-sm btn-warning"><i class="fa fa-pen"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
 
+
+                        </tbody>
+                    </table>
+            </div>
+        </div>
     </div>
     <!-- /.content-wrapper -->
 
@@ -158,6 +164,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="<?= asset('plugins/jquery/jquery.min.js') ?>"></script>
+<script src="<?= asset('plugins/jquery/jquery.min.js') ?>"></script>
 <!-- Bootstrap 4 -->
 <script src="<?= asset('plugins/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
 <!-- AdminLTE App -->
@@ -170,41 +177,72 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!--sweetalert-->
 <script src="<?= asset('plugins/sweetalert2/sweetalert2.all.js') ?>"></script>
 
+<script src="<?= asset('plugins\summernote\summernote-bs5.min.js') ?>"></script>
+
 <script>
-    const customer = document.getElementById('customer')
-    customer.addEventListener('submit', (e) => {
-        let customerName = document.getElementById('customerName').value
-        let customerSurname = document.getElementById('customerSurname').value
-        let customerMail = document.getElementById('customerMail').value
-        let customerAddress = document.getElementById('customerAddress').value
-        let customerPhone = document.getElementById('customerPhone').value
-        let customerCompany = document.getElementById('customerCompany').value
-        let customerId = document.getElementById('customerId').value
+    $(document).ready(function() {
+        $('#summernote').summernote({
+            height: 150,
+            maxHeight: 400
+        });
+    });
+
+    function saveNote(){
+        const html = $('#summernote').summernote('code');
 
         let formData = new FormData();
-        formData.append('customerName', customerName)
-        formData.append('customerSurname', customerSurname)
-        formData.append('customerMail', customerMail)
-        formData.append('customerAddress', customerAddress)
-        formData.append('customerPhone', customerPhone)
-        formData.append('customerCompany', customerCompany)
-        formData.append('customerId', customerId)
+        formData.append('note', html)
 
-        axios.post('<?= _link('customer/edit') ?>', formData)
-            .then(res => {
-                if (res.data.redirect) {
-                    window.location.href = res.data.redirect;
-                }
-                Swal.fire(
-                    res.data.title,
-                    res.data.msg,
-                    res.data.status
-                )
-            }).catch(err => {
-            console.log(err)
-        })
-        e.preventDefault()
-    })
+        axios.post('<?= _link('customer/note/'.$data['customer']['id']) ?>', formData)
+               .then(res => {
+                   if (res.data.redirect) {
+                       window.location.href = res.data.redirect;
+                   }
+                   Swal.fire(
+                       res.data.title,
+                       res.data.msg,
+                       res.data.status
+                   )
+               }).catch(err => {
+               console.log(err)
+           })
+           e.preventDefault()
+    }
+
+    //const customer = document.getElementById('customer')
+    //customer.addEventListener('submit', (e) => {
+    //    let customerName = document.getElementById('customerName').value
+    //    let customerSurname = document.getElementById('customerSurname').value
+    //    let customerMail = document.getElementById('customerMail').value
+    //    let customerAddress = document.getElementById('customerAddress').value
+    //    let customerPhone = document.getElementById('customerPhone').value
+    //    let customerCompany = document.getElementById('customerCompany').value
+    //    let customerId = document.getElementById('customerId').value
+    //
+    //    let formData = new FormData();
+    //    formData.append('customerName', customerName)
+    //    formData.append('customerSurname', customerSurname)
+    //    formData.append('customerMail', customerMail)
+    //    formData.append('customerAddress', customerAddress)
+    //    formData.append('customerPhone', customerPhone)
+    //    formData.append('customerCompany', customerCompany)
+    //    formData.append('customerId', customerId)
+    //
+    //    axios.post('<?php //= _link('customer/edit') ?>//', formData)
+    //        .then(res => {
+    //            if (res.data.redirect) {
+    //                window.location.href = res.data.redirect;
+    //            }
+    //            Swal.fire(
+    //                res.data.title,
+    //                res.data.msg,
+    //                res.data.status
+    //            )
+    //        }).catch(err => {
+    //        console.log(err)
+    //    })
+    //    e.preventDefault()
+    //})
 
 </script>
 
