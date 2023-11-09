@@ -73,4 +73,22 @@ class ModelCustomer extends BaseModel
         $data = $this->db->query("select * from customers where customers.id='$id'", false);
         return $data;
     }
+    public function editNote($data)
+    {
+        extract($data);
+        $user = $this->db->connect->prepare('update customers set 
+            customers.notes= :note
+            where customers.id= :id');
+
+        $result = $user->execute([
+            'note' => $note,
+            'id' => $id
+        ]);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
