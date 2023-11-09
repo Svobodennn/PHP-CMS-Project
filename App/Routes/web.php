@@ -22,6 +22,7 @@ $cms->router->mount('/customer', function () use ($cms) {
     $cms->router->post('/add', 'Controllers\Customer@AddCustomer');
     $cms->router->get('/edit/([0-9]+)', 'Controllers\Customer@Edit');
     $cms->router->get('/detail/([0-9]+)', 'Controllers\Customer@Detail');
+    $cms->router->post('/note/([0-9]+)', 'Controllers\Customer@TakeNote');
     $cms->router->post('/edit', 'Controllers\Customer@EditCustomer');
     $cms->router->get('/([0-9]+)', 'Controllers\Customer@Detail');
     $cms->router->post('/remove', 'Controllers\Customer@RemoveCustomer');
@@ -36,4 +37,10 @@ $cms->router->mount('/project', function () use ($cms) {
     $cms->router->post('/edit', 'Controllers\Project@EditProject');
     $cms->router->get('/([0-9]+)', 'Controllers\Project@Detail');
     $cms->router->post('/remove', 'Controllers\Project@RemoveProject');
+});
+
+$cms->router->mount('/user', function () use ($cms) {
+    $cms->router->get('/', 'Controllers\User@Index');
+    $cms->router->post('/edit', 'Controllers\User@EditProfile');
+    $cms->router->post('/password', 'Controllers\User@ChangePassword');
 });
