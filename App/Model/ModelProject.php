@@ -11,21 +11,26 @@ class ModelProject extends BaseModel
     {
         extract($data);
 
-        $user = $this->db->connect->prepare('Insert into customers 
-            set customers.name= :name,
-            customers.surname= :surname,
-            customers.company= :company,
-            customers.address= :address,
-            customers.phone= :phone,
-            customers.mail= :mail');
+
+        $user = $this->db->connect->prepare('Insert into projects 
+            set projects.title= :title,
+            projects.description= :description,
+            projects.progress= :progress,
+            projects.status= :status,
+            projects.customer_id= :customer_id,
+            projects.start_date= :start_date,
+            projects.end_date= :end_date,
+            projects.added_user= :added_user');
 
         $result = $user->execute([
-            'name' => $customerName,
-            'surname' => $customerSurname,
-            'company' => $customerCompany,
-            'address' => $customerAddress,
-            'phone' => $customerPhone,
-            'mail' => $customerMail
+            'title' => $projectTitle,
+            'description' => $projectDetails,
+            'progress' => $projectProgress,
+            'status' => $projectStatus,
+            'customer_id' => $customerId,
+            'start_date' => $projectStartDate,
+            'end_date' => $projectEndDate,
+            'added_user' => Session::getSession('id')
         ]);
 
         if ($result) {
@@ -34,11 +39,46 @@ class ModelProject extends BaseModel
             return false;
         }
     }
+    public function editProject($data)
+    {
+        extract($data);
+
+        $user = $this->db->connect->prepare('update projects 
+            set projects.title= :title,
+            projects.description= :description,
+            projects.progress= :progress,
+            projects.status= :status,
+            projects.customer_id= :customer_id,
+            projects.start_date= :start_date,
+            projects.end_date= :end_date
+            where projects.id= :projectId');
+
+        $result = $user->execute([
+            'title' => $projectTitle,
+            'description' => $projectDetails,
+            'progress' => $projectProgress,
+            'status' => $projectStatus,
+            'customer_id' => $customerId,
+            'start_date' => $projectStartDate,
+            'end_date' => $projectEndDate,
+            'projectId' => $projectId
+        ]);
+
+        if ($result) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function getProjects()
     {
-
         $data = $this->db->query('select * from projects', true);
         return $data;
-
+    }
+    public function getProject($id)
+    {
+        $data = $this->db->query("select * from projects where projects.id='$id'", false);
+        return $data;
     }
 }
