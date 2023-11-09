@@ -13,6 +13,7 @@ class ModelAuth extends BaseModel
         $user = $this->db->query("Select * from users where users.mail = '$mail' and users.password= '$password'");
         if ($user){
             Session::setSession('login', true);
+            Session::setSession('id', $user['id']);
             Session::setSession('name',$user['name']);
             Session::setSession('surname',$user['surname']);
             Session::setSession('mail',$user['mail']);
