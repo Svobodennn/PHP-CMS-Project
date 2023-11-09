@@ -94,6 +94,19 @@ class Customer extends BaseController
         $data['sidebar'] = $this->view->load('static/sidebar');
         echo $this->view->load('customer/edit',compact('data')); // ['data' => $data]
     }
+    public function Detail($id)
+    {
+
+        $modelProject = new ModelProject();
+        $data['projects'] = $modelProject->getProjects();
+
+        $model = new ModelCustomer();
+        $data['customer'] = $model->getCustomer($id);
+
+        $data['navbar'] = $this->view->load('static/navbar');
+        $data['sidebar'] = $this->view->load('static/sidebar');
+        echo $this->view->load('customer/detail',compact('data')); // ['data' => $data]
+    }
 
     public function EditCustomer()
     {
