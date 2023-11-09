@@ -50,6 +50,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <tr>
                             <th style="width: 10px">#</th>
                             <th>Title</th>
+                            <th>Customer</th>
                             <th>Progress</th>
                             <th>Status</th>
                             <th style="width: 40px">Action</th>
@@ -60,6 +61,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <tr id="row_<?= $value['id'] ?>">
                                 <td><?= $count++ ?></td>
                                 <td><?= $value['title']?></td>
+                                <td><a href="<?= _link('customer/detail/'.$value['customer_id']) ?>"><?= $value['name'].' '.$value['surname']?></a></td>
                                 <td>
                                     <?= $value['progress']?>%
                                         <div class="progress progress-xs">
